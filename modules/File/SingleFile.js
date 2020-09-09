@@ -41,11 +41,11 @@ module.exports = exports = {
         catch (ex) {
             switch (ex.code) {
                 case 'EISDIR':
-                    console.error('要读取的文件路径', file.yellow, '是一个目录。');
+                    console.error('要读取的文件路径'.red, file.yellow, '是一个目录。'.red);
                     break;
 
                 case 'ENOENT':
-                    console.error('要读取的文件路径', file.yellow, '不存在。');
+                    console.error('要读取的文件路径'.red, file.yellow, '不存在。'.red);
                     break;
             }
 
