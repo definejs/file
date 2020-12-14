@@ -208,6 +208,9 @@ module.exports = exports = {
     * 已重载 writeJSON(file, json, minify); //使用指定的压缩方式写入一个 JSON 文件。
     * 已重载 writeJSON(file$json);          //使用普通的方式写入多个 JSON 文件。
     * 已重载 writeJSON(file$json, minify);  //使用指定的压缩方式写入多个 JSON 文件。
+    * @param {string} file 必选，要写入的目标 JSON 文件路径。
+    * @param {Object|Array} json 必选，要写入的数据。
+    * @param {boolean} minify 可选，指定是否压缩。
     */
     writeJSON(file, json, minify) {
         //重载 writeJSON(file$json, minify); 的形式。
@@ -226,5 +229,46 @@ module.exports = exports = {
         SingleFile.writeJSON(file, json, minify);
 
     },
+
+    
+
+    /**
+    * 对传入的对象或数组进行排序后写入 JSON 文件。
+    * @param {string} file 必选，要写入的目标 JSON 文件路径。
+    * @param {Object|Array} data 必选，要写入的对象或数组数据。
+    * @param {function} sort 可选，排序方法。 如果要指定自定义的排序算法，请提供一个函数。 否则使用默认的排序算法。
+    */
+    writeSortJSON(file, data, sort) {
+        //数组。
+        if (Array.isArray(data)) {
+            let list = data.sort(sort);
+
+            exports.writeJSON(file, list);
+            return;
+        }
+
+        if (typeof data != 'object' || !data) {
+            throw new Error(`参数 data 必须为一个对象或数组。`);
+        }
+
+
+        let json = {};
+        let keys = Object.keys(data).sort(sort);
+
+        keys.forEach((key) => {
+            let value = data[key];
+
+            //值为数组的，继续排序。
+            if (Array.isArray(value)) {
+                value = value.sort(sort);
+            }
+
+            json[key] = value;
+        });
+
+        exports.writeJSON(file, json);
+    },
+
+
 };
 
