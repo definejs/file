@@ -1,6 +1,6 @@
 {
   "name": "@definejs/file",
-  "version": "0.1.9",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {},
@@ -13,8 +13,8 @@
     "url": "https://github.com/definejs/file.git"
   },
   "dependencies": {
-    "@definejs/directory": "^0.1.0",
-    "@definejs/object": "^1.0.6",
+    "@definejs/directory": "^1.0.0",
+    "@definejs/object": "^1.1.0",
     "colors": "^1.4.0",
     "iconv-lite": "^0.6.2"
   }
