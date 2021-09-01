@@ -1,7 +1,7 @@
 {
   "name": "@definejs/file",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "针对 node 端的文件读取和操纵工具。",
   "main": "index.js",
   "scripts": {},
   "keywords": [],
@@ -13,9 +13,7 @@
     "url": "https://github.com/definejs/file.git"
   },
   "dependencies": {
-    "@definejs/directory": "^1.0.0",
-    "@definejs/object": "^1.1.0",
-    "colors": "^1.4.0",
+    "@definejs/directory": "^2.0.1",
     "iconv-lite": "^0.6.2"
   }
 }

@@ -2,7 +2,7 @@
 * 文件工具。
 */
 
-const $Object = require('@definejs/object');
+
 const SingleFile = require('./File/SingleFile');
 
 
@@ -35,14 +35,10 @@ module.exports = exports = {
     * 读取一个文件或多个文件。
     * 可以指定使用指定的编码，否则默认为 `utf8`。
     * 已重载 read(file);            //使用 `utf8` 的编码方式读取内容。
-    * 已重载 read(file, null);      //读取 buffer 形式的内容。
     * 已重载 read(file, encoding);  //使用指定的编码读取一个内容。
-    * 
     * 已重载 read(files);           //使用 `utf8` 的编码方式读取多个文件内容，返回一个内容数组。
-    * 已重载 read(files, null);     //读取多个文件的 buffer 形式的内容，返回一个 buffer 数组。
-    * 已重载 read(files, encoding); //读取多个文件使用同一个编码，返回一个内容数组 contents。
-    * 
-    * 已重载 read(file$encoding);   //读取多个不同文件使用不同的编码，返回一个文件名映射到内容的对象 file$content。
+    * 已重载 read(files, encoding); //使用同一个编码读取多个文件内容，返回一个内容数组。
+    * 已重载 read(file$encoding);   //使用不同的编码读取多个不同文件，返回一个文件名映射到内容的对象 file$content。
     * 
     */
     read(file, encoding) {
@@ -64,7 +60,8 @@ module.exports = exports = {
             let file$encoding = file;
             let file$content = {};
 
-            $Object.each(file$encoding, (file, encoding) => { 
+            Object.keys(file$encoding).forEach((file) => {
+                let encoding = file$encoding[file];
                 file$content[file] = SingleFile.read(file, encoding);
             });
 
@@ -78,13 +75,10 @@ module.exports = exports = {
 
     /**
     * 写入一个文件。
-    * 已重载 write(file, content);              //使用 `utf8` 的编码方式写入内容，输出 log。
-    * 已重载 write(file, content, null);        //使用 `utf8` 的编码方式写入内容，不输出 log。
-    * 已重载 write(file, content, encoding);    //使用指定的编码写入内容，输出 log。
-    * 
-    * 已重载 write(file$content);               //使用 `utf8` 的编码方式写入多个文件内容，输出 log。
-    * 已重载 write(file$content, null);         //使用 `utf8` 的编码方式写入多个文件内容，不输出 log。
-    * 已重载 write(file$content, encoding);     //使用相同的指定的编码写入多个文件内容，输出 log。
+    * 已重载 write(file, content);              //使用 `utf8` 的编码方式写入内容。
+    * 已重载 write(file, content, encoding);    //使用指定的编码写入内容。
+    * 已重载 write(file$content);               //使用 `utf8` 的编码方式写入多个文件内容。
+    * 已重载 write(file$content, encoding);     //使用相同的指定的编码写入多个文件内容。
     */
     write(file, content, encoding) {
         //重载 write(file$content, encoding); 的形式。
@@ -93,7 +87,9 @@ module.exports = exports = {
             let encoding = content;
             let file$content = file;
 
-            $Object.each(file$content, (file, content) => {
+
+            Object.keys(file$content).forEach((file) => {
+                let content = file$content[file];
                 SingleFile.write(file, content, encoding);
             });
 
@@ -107,13 +103,10 @@ module.exports = exports = {
     
     /**
     * 向一个文件追加内容。
-    * 已重载 append(file, content);            //使用 `utf8` 的编码方式追加内容，输出 log。
-    * 已重载 append(file, content, null);      //使用 `utf8` 的编码方式追加内容，不输出 log。
-    * 已重载 append(file, content, encoding);  //使用指定的编码追加内容，输出 log。
-    * 
-    * 已重载 append(file$content);             //使用 `utf8` 的编码方式向多个文件追加内容，输出 log。
-    * 已重载 append(file$content, null);       //使用 `utf8` 的编码方式向多个文件追加内容，不输出 log。
-    * 已重载 append(file$content, encoding);   //使用相同的指定的编码向多个文件追加内容，输出 log。
+    * 已重载 append(file, content);            //使用 `utf8` 的编码方式追加内容。
+    * 已重载 append(file, content, encoding);  //使用指定的编码追加内容。
+    * 已重载 append(file$content);             //使用 `utf8` 的编码方式向多个文件追加内容。
+    * 已重载 append(file$content, encoding);   //使用相同的指定的编码向多个文件追加内容。
     */
     append(file, content, encoding) {
         //重载 append(file$content, encoding); 的形式。
@@ -121,8 +114,9 @@ module.exports = exports = {
         if (typeof file == 'object') {
             let encoding = content;
             let file$content = file;
-
-            $Object.each(file$content, (file, content) => {
+           
+            Object.keys(file$content).forEach((file) => {
+                let content = file$content[file];
                 SingleFile.append(file, content, encoding);
             });
 
@@ -144,7 +138,8 @@ module.exports = exports = {
         if (typeof src == 'object') {
             let src$dest = src;
 
-            $Object.each(src$dest, (src, dest) => {
+            Object.keys(src$dest).forEach((src) => {
+                let dest = src$dest[src];
                 SingleFile.copy(src, dest);
             });
 
@@ -218,8 +213,9 @@ module.exports = exports = {
         if (typeof file == 'object') {
             let minify = json;
             let file$json = file;
-
-            $Object.each(file$json, (file, json) => {
+           
+            Object.keys(file$json).forEach((file) => {
+                let json = file$json[file];
                 SingleFile.writeJSON(file, json, minify);
             });
 
@@ -242,7 +238,6 @@ module.exports = exports = {
         //数组。
         if (Array.isArray(data)) {
             let list = data.sort(sort);
-
             exports.writeJSON(file, list);
             return;
         }
